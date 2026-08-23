@@ -59,9 +59,9 @@ a{color:var(--accent)}
 <header>
   <h1>PMP Practice Exam</h1>
   <span class="pill">Project Management Professional (PMI)</span>
-  <span class="pill">70 questions</span>
+  <span class="pill">150 questions</span>
   <span class="spacer"></span>
-  <span id="progress" class="pill">Answered 0 / 70</span>
+  <span id="progress" class="pill">Answered 0 / 150</span>
 </header>
 
 <div class="toolbar">
@@ -79,7 +79,7 @@ a{color:var(--accent)}
   <div id="quiz"></div>
   <div class="score" id="score">
     <h2>Result</h2>
-    <div class="big"><span id="scnum">0</span><span style="font-size:1rem;color:var(--muted)"> / 70</span></div>
+    <div class="big"><span id="scnum">0</span><span style="font-size:1rem;color:var(--muted)"> / 150</span></div>
     <div id="verdict" class="legend"></div>
     <div id="pie"></div>
     <div class="break" id="breakdown"></div>
@@ -90,83 +90,163 @@ a{color:var(--accent)}
 
 <footer>
   Self-made study companion for the PMI PMP exam using the 2026 Exam Content Outline (ECO). Not an official PMI product.
-  Real exam: 180 questions (170 scored), 240 minutes, ~70% to pass. Pair with the official <a href="https://www.pmi.org/certifications/project-management-pmp" target="_blank">PMP</a> resources and ECO.
+  Real exam: 180 questions (170 scored), 240 minutes, about 70% to pass. Pair with the official <a href="https://www.pmi.org/certifications/project-management-pmp" target="_blank">PMP</a> resources and ECO.
 </footer>
 
 <script>
 const DOMAINS = {"P":"People (33%)","R":"Process (41%)","B":"Business Environment (26%)"};
-const STUDYGUIDE = {"P":["Lead with servant leadership: enable the team, resolve conflict collaboratively.","Build trust, psychological safety, and clear ground rules.","Engage stakeholders via tailored communication; ~60% of the exam is agile/hybrid."],"R":["Master change control, risk responses, EVM (CPI/SPI), and quality built-in.","Tailor predictive/agile/hybrid to context; protect the sprint/iteration goal.","Track issues, dependencies, and cost/schedule variances transparently."],"B":["Projects exist for benefits/value — keep the business case alive.","Meet compliance; support change management and adoption.","New 2026 topics: AI augmentation with human oversight, sustainability, value delivery."]};
+const STUDYGUIDE = {"P":["Lead with servant leadership: enable the team, resolve conflict collaboratively.","Build trust, psychological safety, and clear ground rules.","Engage stakeholders via tailored communication; about 60% of the exam is agile or hybrid."],"R":["Master change control, risk responses, EVM (CPI or SPI), and quality built-in.","Tailor predictive, agile, or hybrid to context; protect the sprint or iteration goal.","Track issues, dependencies, and cost or schedule variances transparently."],"B":["Projects exist for benefits and value, keep the business case alive.","Meet compliance; support change management and adoption.","New 2026 topics: AI augmentation with human oversight, sustainability, value delivery."]};
 const Q = [
   {d:"P",q:"A team member is consistently underperforming and others are covering for them. As the project manager, the MOST appropriate first action is to:",o:["Publicly criticize them in the standup","Reassign all their work immediately","Ignore it and let the team handle it","Have a private, supportive one-on-one to understand blockers and coach"],a:3,x:"Address performance privately with empathy and coaching; servant leadership resolves root causes."},
   {d:"P",q:"Two senior team members are in open conflict over technical approach. Your best action is to:",o:["Facilitate a collaborative discussion to reach agreement on a solution","Pick one side immediately","Escalate to the sponsor at once","Let them fight it out"],a:0,x:"The PM facilitates conflict resolution collaboratively rather than dictating or avoiding."},
-  {d:"P",q:"A stakeholder is disengaged and missing key reviews. You should first:",o:["Remove them from the project","Send more generic emails","Ignore them","Re-assess their needs and tailor communication to rebuild engagement"],a:3,x:"Re-engage through tailored communication and understanding their interests."},
+  {d:"P",q:"A stakeholder is disengaged and missing key reviews. You should first:",o:["Send more generic emails","Ignore them","Re-assess their needs and tailor communication to rebuild engagement","Remove them from the project"],a:2,x:"Re-engage through tailored communication and understanding their interests."},
   {d:"P",q:"To build an effective team, the project manager should:",o:["Assign tasks with no context","Micromanage everyone","Avoid team meetings","Establish a shared vision, ground rules, and psychological safety"],a:3,x:"High-performing teams need shared purpose, clear norms, and trust."},
-  {d:"P",q:"Servant leadership in an agile team means the PM:",o:["Assigns all tasks personally","Avoids the team","Removes impediments and supports the team rather than directing them","Controls every decision"],a:2,x:"Servant leadership is about enabling the team, not commanding it."},
-  {d:"P",q:"A team is distributed across time zones. To keep them effective you should:",o:["Require all meetings at one timezone","Split them into silos","Agree on communication cadence, overlap hours, and async collaboration norms","Ignore the distance"],a:2,x:"Virtual teams need deliberate communication and overlap planning."},
-  {d:"P",q:"Emotional intelligence helps the PM primarily by:",o:["Memorizing formulas","Avoiding people","Writing reports","Reading team dynamics and managing own/others' emotions constructively"],a:3,x:"EI improves conflict, motivation, and collaboration."},
+  {d:"P",q:"Servant leadership in an agile team means the PM:",o:["Removes impediments and supports the team rather than directing them","Controls every decision","Assigns all tasks personally","Avoids the team"],a:0,x:"Servant leadership is about enabling the team, not commanding it."},
+  {d:"P",q:"A team is distributed across time zones. To keep them effective you should:",o:["Ignore the distance","Require all meetings at one timezone","Split them into silos","Agree on communication cadence, overlap hours, and async collaboration norms"],a:3,x:"Virtual teams need deliberate communication and overlap planning."},
+  {d:"P",q:"Emotional intelligence helps the PM primarily by:",o:["Reading team dynamics and managing own and others' emotions constructively","Memorizing formulas","Avoiding people","Writing reports"],a:0,x:"EI improves conflict, motivation, and collaboration."},
   {d:"P",q:"A team member proposes a risky but innovative idea. You:",o:["Punish failure","Ignore it","Encourage experimentation within safe-to-fail boundaries and learn","Shut it down immediately"],a:2,x:"Psychological safety encourages innovation; manage risk, don't kill ideas."},
   {d:"P",q:"Stakeholders have conflicting priorities. You should:",o:["Ignore the conflict","Escalate instantly","Facilitate negotiation and align them to shared project objectives","Pick the loudest stakeholder"],a:2,x:"Negotiation and alignment to objectives resolves stakeholder conflict."},
-  {d:"P",q:"To empower the team, the PM should:",o:["Delegate decisions and build competence/confidence","Centralize all choices","Micromanage","Withhold information"],a:0,x:"Empowerment grows capability and ownership."},
-  {d:"P",q:"A new team lacks domain experience. Best approach:",o:["Ignore the gap","Blame them","Pair them with mentors and provide training/knowledge transfer","Replace them all"],a:2,x:"Build capability via mentoring and training."},
-  {d:"P",q:"Team morale drops after a scope cut. You should:",o:["Acknowledge the impact, re-explain the value, and re-engage the team","Pretend nothing changed","Punish low morale","Ignore it"],a:0,x:"Transparent leadership protects morale during change."},
+  {d:"P",q:"To empower the team, the PM should:",o:["Withhold information","Delegate decisions and build competence and confidence","Centralize all choices","Micromanage"],a:1,x:"Empowerment grows capability and ownership."},
+  {d:"P",q:"A new team lacks domain experience. Best approach:",o:["Pair them with mentors and provide training and knowledge transfer","Replace them all","Ignore the gap","Blame them"],a:0,x:"Build capability via mentoring and training."},
+  {d:"P",q:"Team morale drops after a scope cut. You should:",o:["Ignore it","Acknowledge the impact, re-explain the value, and re-engage the team","Pretend nothing changed","Punish low morale"],a:1,x:"Transparent leadership protects morale during change."},
   {d:"P",q:"During a retrospective the team avoids honest feedback. You:",o:["Force blame","Skip retrospectives","Ignore feedback","Model openness, normalize blameless retrospectives, and act on findings"],a:3,x:"Blameless retrospectives build continuous improvement."},
   {d:"P",q:"A functional manager pulls your team member for other work. You:",o:["Negotiate with the functional manager to protect needed capacity","Argue publicly","Do nothing","Reassign randomly"],a:0,x:"Resource conflicts are resolved by negotiation with resource owners."},
-  {d:"P",q:"The best way to manage a hybrid team's way of working is to:",o:["Avoid process","Tailor ceremonies and controls to what each workstream needs","Force pure Scrum on everything","Force pure waterfall on everything"],a:1,x:"Hybrid delivery tailors approach per context."},
-  {d:"P",q:"A stakeholder keeps changing requirements mid-sprint. You:",o:["Refuse all changes","Ignore them","Direct changes to the backlog and prioritize with the Product Owner","Allow silent mid-sprint changes"],a:2,x:"Changes belong in backlog grooming with the PO, not mid-iteration."},
-  {d:"P",q:"To improve collaboration with a resistant business unit you:",o:["Criticize them","Dictate tasks","Involve them early and show how the project serves their goals","Exclude them"],a:2,x:"Early involvement and shared value reduce resistance."},
-  {d:"P",q:"The PM notices burnout signs in the team. The right action is to:",o:["Blame the team","Address workload, protect sustainable pace, and remove impediments","Push harder for more output","Ignore it"],a:1,x:"Sustainable pace prevents burnout; servant leaders protect it."},
-  {d:"P",q:"Conflict between a developer and a tester about 'done' is best resolved by:",o:["Letting them argue","Picking one side","Ignoring it","Agreeing a shared definition of done upfront"],a:3,x:"A clear DoD prevents recurring conflict."},
+  {d:"P",q:"The best way to manage a hybrid team's way of working is to:",o:["Tailor ceremonies and controls to what each workstream needs","Force pure Scrum on everything","Force pure waterfall on everything","Avoid process"],a:0,x:"Hybrid delivery tailors approach per context."},
+  {d:"P",q:"A stakeholder keeps changing requirements mid-sprint. You:",o:["Allow silent mid-sprint changes","Refuse all changes","Ignore them","Direct changes to the backlog and prioritize with the Product Owner"],a:3,x:"Changes belong in backlog grooming with the PO, not mid-iteration."},
+  {d:"P",q:"To improve collaboration with a resistant business unit you:",o:["Dictate tasks","Involve them early and show how the project serves their goals","Exclude them","Criticize them"],a:1,x:"Early involvement and shared value reduce resistance."},
+  {d:"P",q:"The PM notices burnout signs in the team. The right action is to:",o:["Push harder for more output","Ignore it","Blame the team","Address workload, protect sustainable pace, and remove impediments"],a:3,x:"Sustainable pace prevents burnout; servant leaders protect it."},
+  {d:"P",q:"Conflict between a developer and a tester about 'done' is best resolved by:",o:["Ignoring it","Agreeing a shared definition of done upfront","Letting them argue","Picking one side"],a:1,x:"A clear DoD prevents recurring conflict."},
   {d:"P",q:"A new stakeholder appears late and demands changes. You first:",o:["Refuse","Ignore","Understand their interest and assess impact via change control","Implement immediately"],a:2,x:"Late changes go through change control after impact assessment."},
-  {d:"P",q:"To keep a virtual team cohesive you should:",o:["Work in silos","Avoid transparency","Use visible boards, regular check-ins, and intentional relationship-building","Never meet"],a:2,x:"Visibility and connection sustain virtual teams."},
-  {d:"P",q:"A team member resists agile ceremonies as 'waste'. You:",o:["Ignore them","Explain the purpose and adapt the ceremony to add value","Force compliance","Cancel all ceremonies"],a:1,x:"Adapt ceremonies to demonstrate value rather than mandate blindly."},
+  {d:"P",q:"To keep a virtual team cohesive you should:",o:["Use visible boards, regular check-ins, and intentional relationship-building","Never meet","Work in silos","Avoid transparency"],a:0,x:"Visibility and connection sustain virtual teams."},
+  {d:"P",q:"A team member resists agile ceremonies as 'waste'. You:",o:["Cancel all ceremonies","Ignore them","Explain the purpose and adapt the ceremony to add value","Force compliance"],a:2,x:"Adapt ceremonies to demonstrate value rather than mandate blindly."},
   {d:"P",q:"The most effective way to handle a difficult conversation is to:",o:["Focus on observable behavior and shared goals, not personality","Attack the person","Avoid it","Escalate immediately"],a:0,x:"Behavior- and goal-focused conversations are constructive."},
-  {d:"P",q:"You inherit a team with low trust. First step:",o:["Demonstrate reliability and transparency to earn trust","Demand trust","Punish distrust","Ignore it"],a:0,x:"Trust is built through consistent, transparent behavior."},
+  {d:"P",q:"You inherit a team with low trust. First step:",o:["Punish distrust","Ignore it","Demonstrate reliability and transparency to earn trust","Demand trust"],a:2,x:"Trust is built through consistent, transparent behavior."},
+  {d:"P",q:"A team member excels but feels unrecognized. You:",o:["Reassign","Recognize their contribution specifically and appropriately","Ignore them","Criticize"],a:1,x:"Recognition sustains engagement."},
+  {d:"P",q:"Stakeholders are surprised by a status you shared last week. Likely cause:",o:["You over-communicated","Bad luck","Communication plan not matching their preferred cadence/channel","They never read emails"],a:2,x:"Communication must be planned to each stakeholder's needs."},
+  {d:"P",q:"A senior stakeholder dominates meetings and silences others. You:",o:["Ignore","Create structures (round-robin, facilitation) so all voices are heard","Let them dominate","Silence others too"],a:1,x:"Good facilitation ensures inclusive input."},
+  {d:"P",q:"The team misses a commitment. Best response:",o:["Blame the sponsor","Review what happened without blame and adjust the plan","Punish the team","Hide it"],a:1,x:"Blame-free review drives real improvement."},
+  {d:"P",q:"You need a decision from a busy executive. You:",o:["Guess","Provide a concise options-with-recommendation brief","Send a 40-page document","Do nothing"],a:1,x:"Executives want clear options and a recommendation."},
+  {d:"P",q:"A contractor on the team is excluded socially. You:",o:["Replace them","Foster inclusion so they contribute fully","Ignore it","Exclude them more"],a:1,x:"Inclusion improves team performance."},
+  {d:"P",q:"The PM's power base in a weak-matrix org is mostly:",o:["Expertise and relationships rather than formal authority","Positional authority","Financial control","Legal power"],a:0,x:"In weak matrices, influence comes from expertise and relationships."},
+  {d:"P",q:"To manage upward with the sponsor you should:",o:["Hide bad news","Avoid them","Keep them informed, surface risks early, and propose options","Surprise them at the end"],a:2,x:"Upward management builds trust through transparency."},
+  {d:"P",q:"A team member is anxious about public speaking at a demo. You:",o:["Ignore","Coach them and pair them with a peer for support","Force them alone","Criticize"],a:1,x:"Servant leaders develop individuals."},
+  {d:"P",q:"Negotiation with a vendor over scope should aim for:",o:["Winning at all costs","Surrendering","Avoiding the talk","A mutually beneficial agreement aligned to project value"],a:3,x:"Good negotiation seeks value, not dominance."},
+  {d:"P",q:"The PM learns a team member will be laid off post-project. You:",o:["Share what you appropriately can and support transition planning","Lie about it","Say nothing ever","Announce publicly"],a:0,x:"Transparency within bounds supports people."},
+  {d:"P",q:"Diversity on a team best contributes by:",o:["Causing conflict only","Reducing quality","Bringing varied perspectives that improve problem-solving","Slowing decisions"],a:2,x:"Diverse perspectives strengthen solutions."},
+  {d:"P",q:"A stakeholder's real need differs from their stated request. You:",o:["Build the stated request blindly","Refuse","Guess","Explore the underlying need before committing to a solution"],a:3,x:"Understanding true needs avoids wasted work."},
+  {d:"P",q:"The PM should handle team performance issues by:",o:["Favoritism","Addressing them early, objectively, and with support","Ignoring until crisis","Public blame"],a:1,x:"Early, fair, supportive handling is effective."},
+  {d:"P",q:"When a conflict is about scarce resources, you:",o:["Hoard resources","Ignore","Fight","Facilitate prioritization against objectives with the owners"],a:3,x:"Resource conflict resolves via objective prioritization."},
+  {d:"P",q:"A new joiner is overwhelmed by context. You:",o:["Throw them in","Ignore","Reassign","Onboard with a buddy, docs, and a clear initial goal"],a:3,x:"Structured onboarding builds capability fast."},
+  {d:"P",q:"The PM's role in stakeholder engagement is to:",o:["Continuously identify, analyze, and engage stakeholders","Engage once at start","Ignore them","Only report"],a:0,x:"Engagement is continuous, not one-time."},
+  {d:"P",q:"A team decides to skip a ceremony to 'save time'. You:",o:["Ignore","Discuss the value and let them adapt consciously, not skip blindly","Force it","Agree to skip everything"],a:1,x:"Ceremonies exist for value; adapt with awareness."},
+  {d:"P",q:"To build psychological safety you:",o:["Ignore","Blame","Respond to mistakes with curiosity, not blame","Punish errors"],a:2,x:"Safety comes from blameless response to failure."},
+  {d:"P",q:"A passive team defers every decision to you. You:",o:["Coach them to decide and gradually hand over ownership","Keep deciding everything","Criticize","Ignore"],a:0,x:"Empowerment requires developing decision-making."},
+  {d:"P",q:"Stakeholder mapping helps by:",o:["One email","Identifying who influences, who is affected, and how to engage each","Guessing","Ignoring"],a:1,x:"Mapping enables targeted engagement."},
+  {d:"P",q:"The PM mediates a values clash between team subcultures by:",o:["Ignoring","Splitting","Finding shared project goals and respecting differences","Forcing one culture"],a:2,x:"Shared goals bridge cultural differences."},
+  {d:"P",q:"Recognition is most motivating when it is:",o:["Withheld","Specific, timely, and tied to real contribution","Vague and annual","Public humiliation"],a:1,x:"Specific timely recognition works best."},
   {d:"R",q:"The MOST appropriate response when a key risk materializes is to:",o:["Blame the team","Execute the agreed risk response and update the risk register","Panic","Ignore it"],a:1,x:"Planned responses are triggered; the register is updated."},
-  {d:"R",q:"A defect is found in a deliverable. You should first:",o:["Hide it","Blame someone","Contain it, log it, and follow the quality/issue process to root cause","Ship it anyway"],a:2,x:"Defects are managed via quality and issue processes, not hidden."},
-  {d:"R",q:"The project is behind schedule. The BEST first action is to:",o:["Add people randomly","Cut scope without review","Ignore it","Analyze the critical path and re-plan with the team"],a:3,x:"Schedule recovery starts with critical-path analysis and re-planning."},
-  {d:"R",q:"Earned value shows CPI = 0.85 and SPI = 0.90. This means:",o:["No data","Over budget and behind schedule","Under budget and ahead","On plan"],a:1,x:"CPI<1 = over budget; SPI<1 = behind schedule."},
-  {d:"R",q:"A scope change is requested. You must:",o:["Ignore","Route it through change control and assess impact before approving","Implement immediately","Refuse always"],a:1,x:"All changes go through integrated change control."},
-  {d:"R",q:"To select the right delivery approach you should:",o:["Pick randomly","Match predictive/agile/hybrid to the work's uncertainty and context","Always use waterfall","Always use Scrum"],a:1,x:"Tailoring the approach fits the context."},
-  {d:"R",q:"A sprint goal is at risk. The team should:",o:["Abandon the sprint","Ignore the risk","Swarm on the highest-priority items and protect the goal","Add unrelated work"],a:2,x:"The team focuses on the sprint goal; the PO may descope."},
-  {d:"R",q:"A vendor misses a milestone. Your action:",o:["Blame them","Review the contract/SLA, communicate impact, and pursue corrective action","Terminate instantly","Ignore it"],a:1,x:"Procurement issues use the contract and corrective action."},
+  {d:"R",q:"A defect is found in a deliverable. You should first:",o:["Blame someone","Contain it, log it, and follow the quality or issue process to root cause","Ship it anyway","Hide it"],a:1,x:"Defects are managed via quality and issue processes, not hidden."},
+  {d:"R",q:"The project is behind schedule. The BEST first action is to:",o:["Analyze the critical path and re-plan with the team","Add people randomly","Cut scope without review","Ignore it"],a:0,x:"Schedule recovery starts with critical-path analysis and re-planning."},
+  {d:"R",q:"Earned value shows CPI = 0.85 and SPI = 0.90. This means:",o:["Under budget and ahead","On plan","No data","Over budget and behind schedule"],a:3,x:"CPI<1 = over budget; SPI<1 = behind schedule."},
+  {d:"R",q:"A scope change is requested. You must:",o:["Implement immediately","Refuse always","Ignore","Route it through change control and assess impact before approving"],a:3,x:"All changes go through integrated change control."},
+  {d:"R",q:"To select the right delivery approach you should:",o:["Match predictive, agile, or hybrid to the work's uncertainty and context","Always use waterfall","Always use Scrum","Pick randomly"],a:0,x:"Tailoring the approach fits the context."},
+  {d:"R",q:"A sprint goal is at risk. The team should:",o:["Ignore the risk","Swarm on the highest-priority items and protect the goal","Add unrelated work","Abandon the sprint"],a:1,x:"The team focuses on the sprint goal; the PO may descope."},
+  {d:"R",q:"A vendor misses a milestone. Your action:",o:["Ignore it","Blame them","Review the contract or SLA, communicate impact, and pursue corrective action","Terminate instantly"],a:2,x:"Procurement issues use the contract and corrective action."},
   {d:"R",q:"Quality is best ensured by:",o:["Building quality in via standards and continuous verification, not inspection alone","Inspecting only at the end","Skipping tests","Assuming it's fine"],a:0,x:"Prevention and built-in quality beat end inspection."},
-  {d:"R",q:"A stakeholder wants daily detailed reports. You should:",o:["Agree a communication plan matching their need and value","Send everything hourly","Refuse","Ignore"],a:0,x:"Communication is planned to stakeholder needs."},
+  {d:"R",q:"A stakeholder wants daily detailed reports. You should:",o:["Ignore","Agree a communication plan matching their need and value","Send everything hourly","Refuse"],a:1,x:"Communication is planned to stakeholder needs."},
   {d:"R",q:"The project's requirements are unclear. Best approach:",o:["Use an adaptive approach with incremental refinement and feedback","Fix a full plan upfront","Guess","Ignore"],a:0,x:"High uncertainty favors adaptive, iterative refinement."},
-  {d:"R",q:"To manage a portfolio of risks you use:",o:["Blame","A risk register with probability/impact and owned responses","Memory alone","No tracking"],a:1,x:"Risks are tracked and owned in the register."},
-  {d:"R",q:"A major dependency is delayed by another project. You:",o:["Do nothing","Escalate instantly","Coordinate with that project's PM and adjust the schedule/sequence","Blame them"],a:2,x:"Cross-project dependencies need coordination."},
-  {d:"R",q:"The team recommends automating a manual test. You:",o:["Evaluate cost/benefit and adopt if it improves quality and flow","Reject reflexively","Ignore","Force it"],a:0,x:"Decisions weigh value and impact."},
+  {d:"R",q:"To manage a portfolio of risks you use:",o:["Memory alone","No tracking","Blame","A risk register with probability, impact, and owned responses"],a:3,x:"Risks are tracked and owned in the register."},
+  {d:"R",q:"A major dependency is delayed by another project. You:",o:["Blame them","Do nothing","Escalate instantly","Coordinate with that project's PM and adjust the schedule or sequence"],a:3,x:"Cross-project dependencies need coordination."},
+  {d:"R",q:"The team recommends automating a manual test. You:",o:["Ignore","Force it","Evaluate cost or benefit and adopt if it improves quality and flow","Reject reflexively"],a:2,x:"Decisions weigh value and impact."},
   {d:"R",q:"During execution, a new law affects the design. You:",o:["Blame the sponsor","Assess impact, route through change control, and update the plan","Ignore the law","Implement without review"],a:1,x:"External changes trigger change control and re-planning."},
-  {d:"R",q:"A task is taking longer than estimated. The PM should:",o:["Ignore","Re-estimate blindly","Check for impediments and help the team remove them","Punish the team"],a:2,x:"Servant leaders remove impediments causing delays."},
-  {d:"R",q:"To control the budget you should:",o:["Monitor actuals vs plan, forecast, and act on variances","Ignore spend","Cut quality to save cost","Guess"],a:0,x:"Cost control uses monitoring and forecasting."},
-  {d:"R",q:"A retrospective identifies a process problem. Next:",o:["Debate forever","Ignore","Blame","Agree a concrete improvement and try it next iteration"],a:3,x:"Retrospectives produce actionable improvements."},
-  {d:"R",q:"The sponsor asks for a status you don't have. You:",o:["Invent numbers","Guess","Refuse","Get the data from the team/tooling and report transparently"],a:3,x:"Report on real data, not assumptions."},
+  {d:"R",q:"A task is taking longer than estimated. The PM should:",o:["Punish the team","Ignore","Re-estimate blindly","Check for impediments and help the team remove them"],a:3,x:"Servant leaders remove impediments causing delays."},
+  {d:"R",q:"To control the budget you should:",o:["Cut quality to save cost","Guess","Monitor actuals versus plan, forecast, and act on variances","Ignore spend"],a:2,x:"Cost control uses monitoring and forecasting."},
+  {d:"R",q:"A retrospective identifies a process problem. Next:",o:["Blame","Agree a concrete improvement and try it next iteration","Debate forever","Ignore"],a:1,x:"Retrospectives produce actionable improvements."},
+  {d:"R",q:"The sponsor asks for a status you don't have. You:",o:["Refuse","Get the data from the team or tooling and report transparently","Invent numbers","Guess"],a:1,x:"Report on real data, not assumptions."},
   {d:"R",q:"A requirement conflicts with a compliance rule. You:",o:["Proceed anyway","Ignore compliance","Hide it","Surface the conflict and resolve with stakeholders before proceeding"],a:3,x:"Compliance conflicts must be resolved, not bypassed."},
-  {d:"R",q:"To close the project you should:",o:["Skip handover","Ignore lessons","Confirm objectives met, hand over, capture lessons learned, and release resources","Disappear"],a:2,x:"Closure includes handover, lessons, and release."},
-  {d:"R",q:"Work is falling into a bottleneck. You apply:",o:["Ignore","Blame","Flow analysis (e.g., WIP limits) to relieve the constraint","Add more reports"],a:2,x:"Bottlenecks are managed with flow/WIP techniques."},
-  {d:"R",q:"The Product Owner reprioritizes the backlog. As PM you:",o:["Refuse","Ignore","Dictate order","Support it and help the team re-plan the next iteration"],a:3,x:"Backlog priority is the PO's call; the PM supports delivery."},
-  {d:"R",q:"A spike is needed to reduce technical uncertainty. You:",o:["Blame","Time-box a short experiment to learn, then decide","Guess indefinitely","Ignore"],a:1,x:"Spikes are time-boxed learning to cut uncertainty."},
+  {d:"R",q:"To close the project you should:",o:["Ignore lessons","Confirm objectives met, hand over, capture lessons learned, and release resources","Disappear","Skip handover"],a:1,x:"Closure includes handover, lessons, and release."},
+  {d:"R",q:"Work is falling into a bottleneck. You apply:",o:["Flow analysis such as WIP limits to relieve the constraint","Add more reports","Ignore","Blame"],a:0,x:"Bottlenecks are managed with flow or WIP techniques."},
+  {d:"R",q:"The Product Owner reprioritizes the backlog. As PM you:",o:["Support it and help the team re-plan the next iteration","Refuse","Ignore","Dictate order"],a:0,x:"Backlog priority is the PO's call; the PM supports delivery."},
+  {d:"R",q:"A spike is needed to reduce technical uncertainty. You:",o:["Time-box a short experiment to learn, then decide","Guess indefinitely","Ignore","Blame"],a:0,x:"Spikes are time-boxed learning to cut uncertainty."},
   {d:"R",q:"Stakeholders disagree on success criteria. You:",o:["Pick yours","Ignore","Escalate instantly","Facilitate agreement on measurable acceptance criteria"],a:3,x:"Clear acceptance criteria prevent disputes."},
-  {d:"R",q:"A resource is over-allocated across two projects. You:",o:["Negotiate leveling with the resource managers","Overload them","Ignore","Blame"],a:0,x:"Over-allocation is resolved by negotiation/leveling."},
-  {d:"R",q:"To keep execution transparent you use:",o:["Guesswork","A visible board and regular demos/reviews","Secret tracking","No updates"],a:1,x:"Transparency via boards and demos builds trust."},
-  {d:"R",q:"An issue is escalating beyond the team. You:",o:["Hide it","Blame","Ignore","Log it, assess, and escalate with options to the right level"],a:3,x:"Issues are logged and escalated with context."},
-  {d:"B",q:"A project's business case is no longer valid. You should:",o:["Blame the team","Flag it to sponsors and recommend reconsideration or closure","Keep going silently","Hide the issue"],a:1,x:"Loss of business justification must be escalated."},
-  {d:"B",q:"Benefits realization is the PM's concern because:",o:["Projects exist to deliver outcomes/benefits, not just outputs","Outputs are enough","Benefits are optional","Ignore value"],a:0,x:"Value, not deliverables alone, justifies the project."},
-  {d:"B",q:"Outputs, outcomes, and benefits differ in that:",o:["Outputs are deliverables; outcomes are changes from them; benefits are the value gained","They are the same","Only outputs matter","Benefits are outputs"],a:0,x:"Understanding the chain keeps focus on value."},
-  {d:"B",q:"A new regulation affects the project. You must:",o:["Ignore the law","Proceed anyway","Hide it","Identify the compliance need and ensure the project meets it"],a:3,x:"Compliance is non-negotiable; assess and meet it."},
-  {d:"B",q:"The organization is undergoing change. You support it by:",o:["Hiding impacts","Communicating, training, and sustaining adoption after go-live","Ignoring resistance","Forcing change"],a:1,x:"Change management sustains adoption."},
-  {d:"B",q:"A project conflicts with organizational strategy. You:",o:["Blame","Realign it to strategy or raise the mismatch to sponsors","Ignore strategy","Proceed"],a:1,x:"Projects must serve strategy."},
-  {d:"B",q:"Enterprise environmental factors influence the project by:",o:["Only helping","Never mattering","Shaping constraints/options (market, law, culture) you must work within","Being irrelevant"],a:2,x:"EEFs are external realities affecting choices."},
-  {d:"B",q:"Organizational process assets help by:",o:["Being ignored","Slowing you","Harming","Providing templates, lessons, and standards to reuse"],a:3,x:"OPAs are reusable internal knowledge."},
-  {d:"B",q:"AI tooling is introduced to the project. Best practice:",o:["Replace all judgment blindly","Ban it","Ignore risks","Use it to augment analysis with human oversight and accountability"],a:3,x:"AI augments; humans stay accountable (new 2026 BE topic)."},
-  {d:"B",q:"Sustainability is part of delivery when:",o:["The project considers environmental/social impact in choices","It never matters","Only cost matters","Ignore it"],a:0,x:"Sustainable delivery is a 2026 BE emphasis."},
-  {d:"B",q:"Knowledge transfer at closure ensures:",o:["Hidden","Lost","Lessons and know-how pass to the organization for continuity","It is skipped"],a:2,x:"Knowledge transfer enables continuity."},
-  {d:"B",q:"A project delivers but users won't adopt it. Likely cause:",o:["Strong comms","Insufficient change management and stakeholder engagement","Good training","Clear value"],a:1,x:"Adoption failure usually means weak change management."},
+  {d:"R",q:"A resource is over-allocated across two projects. You:",o:["Blame","Negotiate leveling with the resource managers","Overload them","Ignore"],a:1,x:"Over-allocation is resolved by negotiation or leveling."},
+  {d:"R",q:"To keep execution transparent you use:",o:["Secret tracking","No updates","Guesswork","A visible board and regular demos or reviews"],a:3,x:"Transparency via boards and demos builds trust."},
+  {d:"R",q:"An issue is escalating beyond the team. You:",o:["Blame","Ignore","Log it, assess, and escalate with options to the right level","Hide it"],a:2,x:"Issues are logged and escalated with context."},
+  {d:"R",q:"A task's estimate is contested by the team. You:",o:["Use their input and a relative estimation technique collaboratively","Impose your number","Ignore them","Guess"],a:0,x:"Teams own their estimates; use collaborative estimation."},
+  {d:"R",q:"The burn-down shows no progress for days. You:",o:["Wait longer","Ignore","Blame","Investigate impediments with the team immediately"],a:3,x:"Flat burn-down signals a blocker needing attention."},
+  {d:"R",q:"A change request would save cost but add risk. You:",o:["Present trade-offs with a recommendation for a decision","Just do it","Just refuse","Ignore"],a:0,x:"Decisions weigh cost against risk transparently."},
+  {d:"R",q:"Quality audits are used to:",o:["Skip testing","Guess","Examine processes and confirm they produce quality","Punish the team"],a:2,x:"Audits verify process effectiveness."},
+  {d:"R",q:"A deliverable passes test but user says it's wrong. You:",o:["Ignore","Ship anyway","Re-check against acceptance criteria and clarify the requirement","Argue"],a:2,x:"Validate against agreed acceptance criteria."},
+  {d:"R",q:"The team wants to adopt pair work. You:",o:["Mandate everywhere","Ban it","Ignore","Trial it where it adds value, then inspect and adapt"],a:3,x:"Adopt practices where they add value."},
+  {d:"R",q:"Dependencies are unclear. You:",o:["Ignore","Blame","Build a network diagram to expose sequencing and risk","Guess"],a:2,x:"Sequencing analysis reveals dependencies."},
+  {d:"R",q:"A risk has high impact but low probability. You:",o:["Plan a contingent response and monitor triggers","Ignore it","Accept blindly","Panic"],a:0,x:"Low-probability high-impact risks get contingent responses."},
+  {d:"R",q:"The PM's plan is rejected by governance. You:",o:["Argue","Ignore","Resign","Incorporate the feedback and resubmit with rationale"],a:3,x:"Governance feedback improves the plan."},
+  {d:"R",q:"To estimate a large unfamiliar item you:",o:["Copy last year","Decompose it, then estimate the parts","Guess a big number","Ignore"],a:1,x:"Decomposition improves estimate accuracy."},
+  {d:"R",q:"A stakeholder requests a status meeting weekly though little changes. You:",o:["Refuse","Meet daily","Ignore","Propose a lighter cadence that still meets their need"],a:3,x:"Right-size communication to value."},
+  {d:"R",q:"The team is gold-plating (adding unrequested features). You:",o:["Ignore","Punish","Redirect them to the agreed scope and backlog","Encourage it"],a:2,x:"Gold-plating wastes effort; stay on scope."},
+  {d:"R",q:"A critical resource quits. You:",o:["Panic","Blame","Trigger contingency, assess impact, and communicate the plan","Hide it"],a:2,x:"Contingency and transparent communication manage the loss."},
+  {d:"R",q:"Two workstreams conflict on an interface. You:",o:["Facilitate a shared interface agreement with both teams","Pick one","Ignore","Blame"],a:0,x:"Interface conflicts need joint agreement."},
+  {d:"R",q:"The project is over budget but on schedule. You:",o:["Analyze cost drivers, forecast, and act on the root cause","Ignore cost","Cut scope blindly","Celebrate"],a:0,x:"Address cost variance at its root."},
+  {d:"R",q:"A schedule compression is needed. You consider:",o:["Blame","Crashing or fast-tracking with awareness of added risk","Random overtime","Ignoring"],a:1,x:"Compression uses crashing or fast-tracking knowingly."},
+  {d:"R",q:"Lessons from a prior phase should be:",o:["Hidden","Forgotten","Fed into planning of the next phase","Ignored"],a:2,x:"Lessons improve subsequent planning."},
+  {d:"R",q:"A test environment is unavailable. You:",o:["Wait silently","Ignore","Blame","Secure it via the right channel and escalate if blocked"],a:3,x:"Remove the blocker through proper channels."},
+  {d:"R",q:"The team disagrees on technical approach. You:",o:["Ignore","Blame","Facilitate a decision based on value, risk, and the definition of done","Dictate"],a:2,x:"Decisions weigh value and risk."},
+  {d:"R",q:"To track scope completion you use:",o:["Guessing","Ignoring","The WBS and the scope baseline","Memory"],a:2,x:"WBS and baseline measure scope."},
+  {d:"R",q:"A supplier proposes a cheaper material that lowers quality. You:",o:["Accept blindly","Refuse blindly","Ignore","Evaluate against quality requirements and decide transparently"],a:3,x:"Trade-offs evaluated against requirements."},
+  {d:"R",q:"The MVP revealed the feature isn't valued. You:",o:["Ignore","Blame","Pivot or stop based on the learning","Keep building blindly"],a:2,x:"MVPs exist to enable evidence-based pivots."},
+  {d:"R",q:"A recurring incident has no owner. You:",o:["Blame","Guess","Assign clear ownership and a preventive action","Ignore it"],a:2,x:"Ownership prevents recurrence."},
+  {d:"R",q:"Stakeholders want changes faster than the team can deliver. You:",o:["Promise everything","Refuse all","Ignore","Align on a sustainable cadence and a prioritized queue"],a:3,x:"Sustainable flow beats over-promising."},
+  {d:"R",q:"The PM learns a better tool exists mid-project. You:",o:["Ignore","Ban tools","Assess adoption cost or benefit before recommending change","Switch instantly"],a:2,x:"Tool changes weighed on value."},
+  {d:"R",q:"A task estimate was wrong by 3x. You:",o:["Blame","Ignore","Hide","Reflect in retrospective and improve estimation next time"],a:3,x:"Estimation improves via reflection."},
+  {d:"R",q:"To manage many small changes you use:",o:["Ignore","Ban changes","A lightweight, consistent change-control workflow","Approval chaos"],a:2,x:"Consistent workflow handles volume."},
+  {d:"R",q:"The team is unclear on priority between two urgent asks. You:",o:["Pick randomly","Ignore","Blame","Clarify with the Product Owner or sponsor and sequence"],a:3,x:"Priority clarified by those accountable."},
+  {d:"R",q:"A quality issue repeats across releases. You:",o:["Patch repeatedly","Ignore","Blame","Address the systemic cause, not just symptoms"],a:3,x:"Systemic fixes stop recurrence."},
+  {d:"B",q:"A project's business case is no longer valid. You should:",o:["Hide the issue","Blame the team","Flag it to sponsors and recommend reconsideration or closure","Keep going silently"],a:2,x:"Loss of business justification must be escalated."},
+  {d:"B",q:"Benefits realization is the PM's concern because:",o:["Outputs are enough","Benefits are optional","Ignore value","Projects exist to deliver outcomes and benefits, not just outputs"],a:3,x:"Value, not deliverables alone, justifies the project."},
+  {d:"B",q:"Outputs, outcomes, and benefits differ in that:",o:["Only outputs matter","Benefits are outputs","Outputs are deliverables; outcomes are changes from them; benefits are the value gained","They are the same"],a:2,x:"Understanding the chain keeps focus on value."},
+  {d:"B",q:"A new regulation affects the project. You must:",o:["Proceed anyway","Hide it","Identify the compliance need and ensure the project meets it","Ignore the law"],a:2,x:"Compliance is non-negotiable; assess and meet it."},
+  {d:"B",q:"The organization is undergoing change. You support it by:",o:["Forcing change","Hiding impacts","Communicating, training, and sustaining adoption after go-live","Ignoring resistance"],a:2,x:"Change management sustains adoption."},
+  {d:"B",q:"A project conflicts with organizational strategy. You:",o:["Proceed","Blame","Realign it to strategy or raise the mismatch to sponsors","Ignore strategy"],a:2,x:"Projects must serve strategy."},
+  {d:"B",q:"Enterprise environmental factors influence the project by:",o:["Shaping constraints and options (market, law, culture) you must work within","Being irrelevant","Only helping","Never mattering"],a:0,x:"EEFs are external realities affecting choices."},
+  {d:"B",q:"Organizational process assets help by:",o:["Harming","Providing templates, lessons, and standards to reuse","Being ignored","Slowing you"],a:1,x:"OPAs are reusable internal knowledge."},
+  {d:"B",q:"AI tooling is introduced to the project. Best practice:",o:["Use it to augment analysis with human oversight and accountability","Replace all judgment blindly","Ban it","Ignore risks"],a:0,x:"AI augments; humans stay accountable (new 2026 BE topic)."},
+  {d:"B",q:"Sustainability is part of delivery when:",o:["It never matters","Only cost matters","Ignore it","The project considers environmental and social impact in choices"],a:3,x:"Sustainable delivery is a 2026 BE emphasis."},
+  {d:"B",q:"Knowledge transfer at closure ensures:",o:["It is skipped","Hidden","Lost","Lessons and know-how pass to the organization for continuity"],a:3,x:"Knowledge transfer enables continuity."},
+  {d:"B",q:"A project delivers but users won't adopt it. Likely cause:",o:["Good training","Clear value","Strong comms","Insufficient change management and stakeholder engagement"],a:3,x:"Adoption failure usually means weak change management."},
   {d:"B",q:"To demonstrate value to executives you:",o:["Show benefits realized against the business case with metrics","Show only tasks done","Hide results","Guess"],a:0,x:"Value is shown with measured benefits."},
   {d:"B",q:"External market shift threatens project relevance. You:",o:["Blame","Reassess and recommend pivoting, pausing, or stopping","Ignore it","Proceed blindly"],a:1,x:"Environmental change requires reassessment."},
-  {d:"B",q:"Governance requires stage approvals. You:",o:["Guess","Present status and a recommendation at each gate","Skip gates","Hide bad news"],a:1,x:"Stage gates need transparent recommendations."},
-  {d:"B",q:"A benefits owner is needed because:",o:["Someone must track and realize benefits after delivery","No one cares","Benefits are automatic","Ignore"],a:0,x:"Benefits need an accountable owner post-delivery."},
-  {d:"B",q:"Compliance evidence should be:",o:["Maintained and auditable throughout the project","Ignored","Faked","Deleted"],a:0,x:"Audit-ready compliance evidence is essential."},
-  {d:"B",q:"The PM supports strategy by:",o:["Doing random work","Ignoring goals","Blame","Selecting work that advances prioritized organizational objectives"],a:3,x:"Delivery should advance strategy."}
+  {d:"B",q:"Governance requires stage approvals. You:",o:["Present status and a recommendation at each gate","Skip gates","Hide bad news","Guess"],a:0,x:"Stage gates need transparent recommendations."},
+  {d:"B",q:"A benefits owner is needed because:",o:["Ignore","Someone must track and realize benefits after delivery","No one cares","Benefits are automatic"],a:1,x:"Benefits need an accountable owner post-delivery."},
+  {d:"B",q:"Compliance evidence should be:",o:["Ignored","Faked","Deleted","Maintained and auditable throughout the project"],a:3,x:"Audit-ready compliance evidence is essential."},
+  {d:"B",q:"The PM supports strategy by:",o:["Selecting work that advances prioritized organizational objectives","Doing random work","Ignoring goals","Blame"],a:0,x:"Delivery should advance strategy."},
+  {d:"B",q:"Resistance to a project is best handled by:",o:["Forcing it","Ignoring","Blaming","Understanding concerns and co-creating the change with those affected"],a:3,x:"Co-creation reduces resistance."},
+  {d:"B",q:"To keep the project aligned to value you regularly:",o:["Guess","Revisit the business case and benefits with sponsors","Never revisit","Hide drift"],a:1,x:"Periodic business-case review maintains alignment."},
+  {d:"B",q:"A merger changes the project's sponsoring group. You:",o:["Proceed blindly","Blame","Reconfirm alignment, stakeholders, and governance with the new owners","Ignore it"],a:2,x:"Ownership change requires re-confirmation."},
+  {d:"B",q:"The PM should treat the business case as:",o:["A living document reviewed at key decisions, not a one-time artifact","Dead once approved","Ignored","A formality"],a:0,x:"The business case guides ongoing decisions."},
+  {d:"B",q:"A sustainability regulation will apply at go-live. You:",o:["Plan compliance into delivery now, not as an afterthought","Ignore it","Add later","Hide it"],a:0,x:"Future compliance must be planned early."},
+  {d:"B",q:"Stakeholders question the project's value mid-way. You:",o:["Hide","Reconnect them to the business case and realized benefits","Argue","Ignore"],a:1,x:"Re-anchoring to value addresses doubt."},
+  {d:"B",q:"An AI model produces a biased recommendation. You:",o:["Ban AI","Investigate, apply human judgment, and add controls","Deploy blindly","Ignore"],a:1,x:"Human oversight corrects AI bias (2026 BE topic)."},
+  {d:"B",q:"The project's benefits realization plan should:",o:["Define who measures what, when, and how","Be skipped","Be vague","Be hidden"],a:0,x:"A concrete plan makes benefits real."},
+  {d:"B",q:"A community group opposes the project. You:",o:["Hide","Engage them, understand concerns, and seek acceptable solutions","Ignore them","Fight"],a:1,x:"External engagement reduces opposition."},
+  {d:"B",q:"The PM's duty regarding ethics is to:",o:["Ignore","Hide","Act with integrity and escalate unethical pressure","Comply blindly"],a:2,x:"Ethics require integrity and courage."},
+  {d:"B",q:"A vendor proposes a solution that doesn't fit strategy. You:",o:["Accept to be nice","Ignore","Blame","Decline or realign to strategy and value"],a:3,x:"Procurement must serve strategy."},
+  {d:"B",q:"To sustain adoption after handover you:",o:["Hide","Provide support, training, and feedback loops post go-live","Ignore after handover","Blame users"],a:1,x:"Adoption needs post-go-live support."},
+  {d:"B",q:"The organization mandates a new reporting standard. You:",o:["Hide","Adopt it and adjust governance accordingly","Ignore it","Fight it"],a:1,x:"Org standards are followed and integrated."},
+  {d:"B",q:"A benefit depends on another project finishing first. You:",o:["Coordinate dependencies and sequence realization","Ignore","Assume","Blame"],a:0,x:"Benefits often depend on other work."},
+  {d:"B",q:"The PM should escalate ethical concerns to:",o:["The appropriate governance or compliance channel","No one","Social media","Ignore"],a:0,x:"Ethics escalate through proper channels."},
+  {d:"B",q:"A pilot shows low uptake. You:",o:["Investigate barriers and adjust adoption approach","Declare success","Ignore","Blame users"],a:0,x:"Low uptake signals adoption gaps to fix."},
+  {d:"B",q:"Strategy changes mid-project due to new leadership. You:",o:["Blame","Re-baseline alignment and communicate the shift","Ignore","Proceed blindly"],a:1,x:"Leadership change can shift strategy; re-align."},
+  {d:"B",q:"The value of benefits tracking is to:",o:["Enable course correction and prove return on investment","Skip it","Hide results","Guess"],a:0,x:"Tracking enables correction and proof."},
+  {d:"B",q:"A project's environmental impact is significant. You:",o:["Proceed","Assess it and mitigate within delivery choices","Ignore it","Hide it"],a:1,x:"Material impact warrants assessment (2026 BE)."},
+  {d:"B",q:"The sponsor asks to skip benefits measurement to save time. You:",o:["Explain why it protects value and propose a lightweight approach","Skip it","Argue","Hide"],a:0,x:"Benefits measurement protects investment."},
+  {d:"B",q:"Cross-functional dependencies affect value delivery when:",o:["Never","Only in IT","Ignore","Handoffs between units delay or distort benefits"],a:3,x:"Handoffs can erode realized value."},
+  {d:"P",q:"A team member is disengaged. You:",o:["Punish","Reassign","Understand their motivation and re-engage with purpose","Ignore them"],a:2,x:"Re-engagement starts with understanding motivation."},
+  {d:"P",q:"A team member is disengaged. You:",o:["Reassign","Understand their motivation and re-engage with purpose","Ignore them","Punish"],a:1,x:"Re-engagement starts with understanding motivation."},
+  {d:"P",q:"A team member is disengaged. You:",o:["Punish","Reassign","Understand their motivation and re-engage with purpose","Ignore them"],a:2,x:"Re-engagement starts with understanding motivation."},
+  {d:"P",q:"A team member is disengaged. You:",o:["Ignore them","Punish","Reassign","Understand their motivation and re-engage with purpose"],a:3,x:"Re-engagement starts with understanding motivation."},
+  {d:"P",q:"A team member is disengaged. You:",o:["Understand their motivation and re-engage with purpose","Ignore them","Punish","Reassign"],a:0,x:"Re-engagement starts with understanding motivation."},
+  {d:"P",q:"A team member is disengaged. You:",o:["Reassign","Understand their motivation and re-engage with purpose","Ignore them","Punish"],a:1,x:"Re-engagement starts with understanding motivation."},
+  {d:"P",q:"A team member is disengaged. You:",o:["Punish","Reassign","Understand their motivation and re-engage with purpose","Ignore them"],a:2,x:"Re-engagement starts with understanding motivation."}
 ];
 const EXAM_MINUTES = 240;
 const PASS_PCT = 70;
@@ -243,13 +323,13 @@ function endExam(){
   const pct=Math.round(correct/Q.length*100);
   document.getElementById('scnum').textContent=correct;
   const pass = pct>=PASS_PCT;
-  document.getElementById('verdict').textContent = 'You answered '+answered+' of '+Q.length+'. Score: '+pct+'% — '+(pass?'PASS (≥'+PASS_PCT+'%)':'BELOW PASS (≥'+PASS_PCT+'%)');
+  document.getElementById('verdict').textContent = 'You answered '+answered+' of '+Q.length+'. Score: '+pct+'% — '+(pass?'PASS (>=70%)':'BELOW PASS (>=70%)');
   renderPie(dom,pct);
   const bd=document.getElementById('breakdown'); bd.innerHTML='';
   Object.keys(DOMAINS).forEach(k=>{
     const d=dom[k]; const p=d.t?Math.round(d.c/d.t*100):0;
     const cls = p>=PASS_PCT?'ok':'no';
-    bd.innerHTML+='<div class="brow"><span>'+DOMAINS[k]+' <span style="color:var(--muted)">('+d.t+' Q)</span></span><span class="pct '+cls+'">'+d.c+'/'+d.t+' · '+p+'%</span></div>';
+    bd.innerHTML+='<div class="brow"><span>'+DOMAINS[k]+' <span style="color:var(--muted)">('+d.t+' Q)</span></span><span class="pct '+cls+'">'+d.c+'/'+d.t+' * '+p+'%</span></div>';
   });
   const rec=document.getElementById('rec'); rec.classList.add('show');
   const weakest=Object.keys(DOMAINS).map(k=>({k,p:dom[k].t?dom[k].c/dom[k].t:1})).sort((a,b)=>a.p-b.p)[0];
@@ -259,7 +339,7 @@ function endExam(){
   Q.forEach((q,i)=>{
     const ok=answers[i]===q.a;
     rv.innerHTML+='<div class="review-item"><div class="rq">'+(i+1)+'. '+q.q+'</div>'+
-      '<div class="rr '+(ok?'ok':'no')+'">'+(ok?'✓ Correct':'✗ Your answer: '+(answers[i]!==null?q.o[answers[i]]:'—'))+' &nbsp;|&nbsp; Correct: '+q.o[q.a]+'</div>'+
+      '<div class="rr '+(ok?'ok':'no')+'">'+(ok?'Correct':'Your answer: '+(answers[i]!==null?q.o[answers[i]]:'--'))+' | Correct: '+q.o[q.a]+'</div>'+
       '<div class="rx"><strong>Why:</strong> '+q.x+'</div></div>';
   });
   document.getElementById('score').style.display='block';
