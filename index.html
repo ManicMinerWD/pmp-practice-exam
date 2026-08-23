@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMP Practice Exam</title>
+<style>
+:root{--bg:#0b1020;--card:#151c2e;--fg:#e8ecf5;--muted:#9aa6c0;--accent:#6ea8fe;--good:#3ecf8e;--bad:#ff6b6b;--line:#26304a}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--fg);line-height:1.5}
+header{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+header h1{font-size:1.15rem;margin:0;font-weight:650}
+.pill{background:#1d2742;border:1px solid var(--line);color:var(--muted);padding:3px 10px;border-radius:999px;font-size:.78rem}
+.spacer{flex:1}
+button{cursor:pointer;border:1px solid var(--line);background:#1b2540;color:var(--fg);padding:9px 16px;border-radius:8px;font-size:.92rem;transition:.15s}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);color:#08101f;border-color:var(--accent);font-weight:600}
+button:disabled{opacity:.45;cursor:not-allowed}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:14px 22px;border-bottom:1px solid var(--line)}
+.modebtns button.active{background:var(--accent);color:#08101f;border-color:var(--accent)}
+#timer{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.9rem}
+main{padding:22px;max-width:820px;margin:0 auto}
+#quiz{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px}
+.qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px}
+.qdomain{font-size:.74rem;color:var(--accent);text-transform:uppercase;letter-spacing:.04em}
+.qno{font-size:.8rem;color:var(--muted)}
+.question{font-size:1.05rem;margin-bottom:18px;font-weight:550}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:9px;background:#121a2e;transition:.12s}
+.opt:hover{border-color:var(--accent)}
+.opt input{accent-color:var(--accent);width:17px;height:17px}
+.opt.correct{border-color:var(--good);background:rgba(62,207,142,.12)}
+.opt.wrong{border-color:var(--bad);background:rgba(255,107,107,.12)}
+.opt.dim{opacity:.55}
+.exp{margin-top:16px;padding:13px 15px;border-left:3px solid var(--accent);background:#101a30;border-radius:6px;font-size:.92rem;color:#cdd6ea}
+.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:10px}
+.qcontrols{display:flex;gap:10px}
+.score{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px;margin-top:22px;display:none}
+.score h2{margin-top:0}
+.big{font-size:2.4rem;font-weight:700;margin:6px 0}
+.legend{font-size:.85rem;color:var(--muted);margin-top:8px}
+#pie{display:flex;flex-direction:column;align-items:center;margin:16px 0}
+#pie svg{max-width:240px}
+.pielabel{font-size:.8rem;color:var(--muted);text-align:center;margin-top:4px}
+.break{display:flex;flex-direction:column;gap:9px;margin-top:16px}
+.brow{display:flex;justify-content:space-between;gap:12px;font-size:.9rem;padding:9px 12px;background:#121a2e;border:1px solid var(--line);border-radius:8px}
+.brow .pct{font-weight:650}
+.rec{margin-top:18px;padding:16px;border:1px solid var(--good);border-radius:10px;background:rgba(62,207,142,.08);display:none}
+.rec h3{margin:0 0 8px;font-size:1rem}
+.rec ul{margin:6px 0 0;padding-left:20px;font-size:.9rem;color:#cdd6ea}
+#review{margin-top:20px}
+.review-item{padding:13px 15px;border:1px solid var(--line);border-radius:9px;margin-bottom:10px;background:#121a2e}
+.review-item .rq{font-weight:550;margin-bottom:6px}
+.review-item .rr{font-size:.85rem}
+.review-item .ok{color:var(--good)}
+.review-item .no{color:var(--bad)}
+.review-item .rx{font-size:.84rem;color:#cdd6ea;margin-top:6px}
+footer{padding:18px 22px;color:var(--muted);font-size:.78rem;border-top:1px solid var(--line);margin-top:30px}
+a{color:var(--accent)}
+</style></head>
+<body>
+<header>
+  <h1>PMP Practice Exam</h1>
+  <span class="pill">Project Management Professional (PMI)</span>
+  <span class="pill">70 questions</span>
+  <span class="spacer"></span>
+  <span id="progress" class="pill">Answered 0 / 70</span>
+</header>
+
+<div class="toolbar">
+  <div class="modebtns">
+    <button id="btnStudy" class="active" onclick="setMode('study')">Study mode</button>
+    <button id="btnExam" onclick="setMode('exam')">Exam mode</button>
+  </div>
+  <span id="timer"></span>
+  <span class="spacer"></span>
+  <button id="endBtn" class="primary" onclick="endExam()">End exam</button>
+  <button onclick="resetExam()">Reset</button>
+</div>
+
+<main>
+  <div id="quiz"></div>
+  <div class="score" id="score">
+    <h2>Result</h2>
+    <div class="big"><span id="scnum">0</span><span style="font-size:1rem;color:var(--muted)"> / 70</span></div>
+    <div id="verdict" class="legend"></div>
+    <div id="pie"></div>
+    <div class="break" id="breakdown"></div>
+    <div class="rec" id="rec"><h3>Focus area — weakest domain</h3><ul id="recul"></ul></div>
+    <div id="review"></div>
+  </div>
+</main>
+
+<footer>
+  Self-made study companion for the PMI PMP exam using the 2026 Exam Content Outline (ECO). Not an official PMI product.
+  Real exam: 180 questions (170 scored), 240 minutes, ~70% to pass. Pair with the official <a href="https://www.pmi.org/certifications/project-management-pmp" target="_blank">PMP</a> resources and ECO.
+</footer>
+
+<script>
+const DOMAINS = {"P":"People (33%)","R":"Process (41%)","B":"Business Environment (26%)"};
+const STUDYGUIDE = {"P":["Lead with servant leadership: enable the team, resolve conflict collaboratively.","Build trust, psychological safety, and clear ground rules.","Engage stakeholders via tailored communication; ~60% of the exam is agile/hybrid."],"R":["Master change control, risk responses, EVM (CPI/SPI), and quality built-in.","Tailor predictive/agile/hybrid to context; protect the sprint/iteration goal.","Track issues, dependencies, and cost/schedule variances transparently."],"B":["Projects exist for benefits/value — keep the business case alive.","Meet compliance; support change management and adoption.","New 2026 topics: AI augmentation with human oversight, sustainability, value delivery."]};
+const Q = [
+  {d:"P",q:"A team member is consistently underperforming and others are covering for them. As the project manager, the MOST appropriate first action is to:",o:["Publicly criticize them in the standup","Reassign all their work immediately","Ignore it and let the team handle it","Have a private, supportive one-on-one to understand blockers and coach"],a:3,x:"Address performance privately with empathy and coaching; servant leadership resolves root causes."},
+  {d:"P",q:"Two senior team members are in open conflict over technical approach. Your best action is to:",o:["Facilitate a collaborative discussion to reach agreement on a solution","Pick one side immediately","Escalate to the sponsor at once","Let them fight it out"],a:0,x:"The PM facilitates conflict resolution collaboratively rather than dictating or avoiding."},
+  {d:"P",q:"A stakeholder is disengaged and missing key reviews. You should first:",o:["Remove them from the project","Send more generic emails","Ignore them","Re-assess their needs and tailor communication to rebuild engagement"],a:3,x:"Re-engage through tailored communication and understanding their interests."},
+  {d:"P",q:"To build an effective team, the project manager should:",o:["Assign tasks with no context","Micromanage everyone","Avoid team meetings","Establish a shared vision, ground rules, and psychological safety"],a:3,x:"High-performing teams need shared purpose, clear norms, and trust."},
+  {d:"P",q:"Servant leadership in an agile team means the PM:",o:["Assigns all tasks personally","Avoids the team","Removes impediments and supports the team rather than directing them","Controls every decision"],a:2,x:"Servant leadership is about enabling the team, not commanding it."},
+  {d:"P",q:"A team is distributed across time zones. To keep them effective you should:",o:["Require all meetings at one timezone","Split them into silos","Agree on communication cadence, overlap hours, and async collaboration norms","Ignore the distance"],a:2,x:"Virtual teams need deliberate communication and overlap planning."},
+  {d:"P",q:"Emotional intelligence helps the PM primarily by:",o:["Memorizing formulas","Avoiding people","Writing reports","Reading team dynamics and managing own/others' emotions constructively"],a:3,x:"EI improves conflict, motivation, and collaboration."},
+  {d:"P",q:"A team member proposes a risky but innovative idea. You:",o:["Punish failure","Ignore it","Encourage experimentation within safe-to-fail boundaries and learn","Shut it down immediately"],a:2,x:"Psychological safety encourages innovation; manage risk, don't kill ideas."},
+  {d:"P",q:"Stakeholders have conflicting priorities. You should:",o:["Ignore the conflict","Escalate instantly","Facilitate negotiation and align them to shared project objectives","Pick the loudest stakeholder"],a:2,x:"Negotiation and alignment to objectives resolves stakeholder conflict."},
+  {d:"P",q:"To empower the team, the PM should:",o:["Delegate decisions and build competence/confidence","Centralize all choices","Micromanage","Withhold information"],a:0,x:"Empowerment grows capability and ownership."},
+  {d:"P",q:"A new team lacks domain experience. Best approach:",o:["Ignore the gap","Blame them","Pair them with mentors and provide training/knowledge transfer","Replace them all"],a:2,x:"Build capability via mentoring and training."},
+  {d:"P",q:"Team morale drops after a scope cut. You should:",o:["Acknowledge the impact, re-explain the value, and re-engage the team","Pretend nothing changed","Punish low morale","Ignore it"],a:0,x:"Transparent leadership protects morale during change."},
+  {d:"P",q:"During a retrospective the team avoids honest feedback. You:",o:["Force blame","Skip retrospectives","Ignore feedback","Model openness, normalize blameless retrospectives, and act on findings"],a:3,x:"Blameless retrospectives build continuous improvement."},
+  {d:"P",q:"A functional manager pulls your team member for other work. You:",o:["Negotiate with the functional manager to protect needed capacity","Argue publicly","Do nothing","Reassign randomly"],a:0,x:"Resource conflicts are resolved by negotiation with resource owners."},
+  {d:"P",q:"The best way to manage a hybrid team's way of working is to:",o:["Avoid process","Tailor ceremonies and controls to what each workstream needs","Force pure Scrum on everything","Force pure waterfall on everything"],a:1,x:"Hybrid delivery tailors approach per context."},
+  {d:"P",q:"A stakeholder keeps changing requirements mid-sprint. You:",o:["Refuse all changes","Ignore them","Direct changes to the backlog and prioritize with the Product Owner","Allow silent mid-sprint changes"],a:2,x:"Changes belong in backlog grooming with the PO, not mid-iteration."},
+  {d:"P",q:"To improve collaboration with a resistant business unit you:",o:["Criticize them","Dictate tasks","Involve them early and show how the project serves their goals","Exclude them"],a:2,x:"Early involvement and shared value reduce resistance."},
+  {d:"P",q:"The PM notices burnout signs in the team. The right action is to:",o:["Blame the team","Address workload, protect sustainable pace, and remove impediments","Push harder for more output","Ignore it"],a:1,x:"Sustainable pace prevents burnout; servant leaders protect it."},
+  {d:"P",q:"Conflict between a developer and a tester about 'done' is best resolved by:",o:["Letting them argue","Picking one side","Ignoring it","Agreeing a shared definition of done upfront"],a:3,x:"A clear DoD prevents recurring conflict."},
+  {d:"P",q:"A new stakeholder appears late and demands changes. You first:",o:["Refuse","Ignore","Understand their interest and assess impact via change control","Implement immediately"],a:2,x:"Late changes go through change control after impact assessment."},
+  {d:"P",q:"To keep a virtual team cohesive you should:",o:["Work in silos","Avoid transparency","Use visible boards, regular check-ins, and intentional relationship-building","Never meet"],a:2,x:"Visibility and connection sustain virtual teams."},
+  {d:"P",q:"A team member resists agile ceremonies as 'waste'. You:",o:["Ignore them","Explain the purpose and adapt the ceremony to add value","Force compliance","Cancel all ceremonies"],a:1,x:"Adapt ceremonies to demonstrate value rather than mandate blindly."},
+  {d:"P",q:"The most effective way to handle a difficult conversation is to:",o:["Focus on observable behavior and shared goals, not personality","Attack the person","Avoid it","Escalate immediately"],a:0,x:"Behavior- and goal-focused conversations are constructive."},
+  {d:"P",q:"You inherit a team with low trust. First step:",o:["Demonstrate reliability and transparency to earn trust","Demand trust","Punish distrust","Ignore it"],a:0,x:"Trust is built through consistent, transparent behavior."},
+  {d:"R",q:"The MOST appropriate response when a key risk materializes is to:",o:["Blame the team","Execute the agreed risk response and update the risk register","Panic","Ignore it"],a:1,x:"Planned responses are triggered; the register is updated."},
+  {d:"R",q:"A defect is found in a deliverable. You should first:",o:["Hide it","Blame someone","Contain it, log it, and follow the quality/issue process to root cause","Ship it anyway"],a:2,x:"Defects are managed via quality and issue processes, not hidden."},
+  {d:"R",q:"The project is behind schedule. The BEST first action is to:",o:["Add people randomly","Cut scope without review","Ignore it","Analyze the critical path and re-plan with the team"],a:3,x:"Schedule recovery starts with critical-path analysis and re-planning."},
+  {d:"R",q:"Earned value shows CPI = 0.85 and SPI = 0.90. This means:",o:["No data","Over budget and behind schedule","Under budget and ahead","On plan"],a:1,x:"CPI<1 = over budget; SPI<1 = behind schedule."},
+  {d:"R",q:"A scope change is requested. You must:",o:["Ignore","Route it through change control and assess impact before approving","Implement immediately","Refuse always"],a:1,x:"All changes go through integrated change control."},
+  {d:"R",q:"To select the right delivery approach you should:",o:["Pick randomly","Match predictive/agile/hybrid to the work's uncertainty and context","Always use waterfall","Always use Scrum"],a:1,x:"Tailoring the approach fits the context."},
+  {d:"R",q:"A sprint goal is at risk. The team should:",o:["Abandon the sprint","Ignore the risk","Swarm on the highest-priority items and protect the goal","Add unrelated work"],a:2,x:"The team focuses on the sprint goal; the PO may descope."},
+  {d:"R",q:"A vendor misses a milestone. Your action:",o:["Blame them","Review the contract/SLA, communicate impact, and pursue corrective action","Terminate instantly","Ignore it"],a:1,x:"Procurement issues use the contract and corrective action."},
+  {d:"R",q:"Quality is best ensured by:",o:["Building quality in via standards and continuous verification, not inspection alone","Inspecting only at the end","Skipping tests","Assuming it's fine"],a:0,x:"Prevention and built-in quality beat end inspection."},
+  {d:"R",q:"A stakeholder wants daily detailed reports. You should:",o:["Agree a communication plan matching their need and value","Send everything hourly","Refuse","Ignore"],a:0,x:"Communication is planned to stakeholder needs."},
+  {d:"R",q:"The project's requirements are unclear. Best approach:",o:["Use an adaptive approach with incremental refinement and feedback","Fix a full plan upfront","Guess","Ignore"],a:0,x:"High uncertainty favors adaptive, iterative refinement."},
+  {d:"R",q:"To manage a portfolio of risks you use:",o:["Blame","A risk register with probability/impact and owned responses","Memory alone","No tracking"],a:1,x:"Risks are tracked and owned in the register."},
+  {d:"R",q:"A major dependency is delayed by another project. You:",o:["Do nothing","Escalate instantly","Coordinate with that project's PM and adjust the schedule/sequence","Blame them"],a:2,x:"Cross-project dependencies need coordination."},
+  {d:"R",q:"The team recommends automating a manual test. You:",o:["Evaluate cost/benefit and adopt if it improves quality and flow","Reject reflexively","Ignore","Force it"],a:0,x:"Decisions weigh value and impact."},
+  {d:"R",q:"During execution, a new law affects the design. You:",o:["Blame the sponsor","Assess impact, route through change control, and update the plan","Ignore the law","Implement without review"],a:1,x:"External changes trigger change control and re-planning."},
+  {d:"R",q:"A task is taking longer than estimated. The PM should:",o:["Ignore","Re-estimate blindly","Check for impediments and help the team remove them","Punish the team"],a:2,x:"Servant leaders remove impediments causing delays."},
+  {d:"R",q:"To control the budget you should:",o:["Monitor actuals vs plan, forecast, and act on variances","Ignore spend","Cut quality to save cost","Guess"],a:0,x:"Cost control uses monitoring and forecasting."},
+  {d:"R",q:"A retrospective identifies a process problem. Next:",o:["Debate forever","Ignore","Blame","Agree a concrete improvement and try it next iteration"],a:3,x:"Retrospectives produce actionable improvements."},
+  {d:"R",q:"The sponsor asks for a status you don't have. You:",o:["Invent numbers","Guess","Refuse","Get the data from the team/tooling and report transparently"],a:3,x:"Report on real data, not assumptions."},
+  {d:"R",q:"A requirement conflicts with a compliance rule. You:",o:["Proceed anyway","Ignore compliance","Hide it","Surface the conflict and resolve with stakeholders before proceeding"],a:3,x:"Compliance conflicts must be resolved, not bypassed."},
+  {d:"R",q:"To close the project you should:",o:["Skip handover","Ignore lessons","Confirm objectives met, hand over, capture lessons learned, and release resources","Disappear"],a:2,x:"Closure includes handover, lessons, and release."},
+  {d:"R",q:"Work is falling into a bottleneck. You apply:",o:["Ignore","Blame","Flow analysis (e.g., WIP limits) to relieve the constraint","Add more reports"],a:2,x:"Bottlenecks are managed with flow/WIP techniques."},
+  {d:"R",q:"The Product Owner reprioritizes the backlog. As PM you:",o:["Refuse","Ignore","Dictate order","Support it and help the team re-plan the next iteration"],a:3,x:"Backlog priority is the PO's call; the PM supports delivery."},
+  {d:"R",q:"A spike is needed to reduce technical uncertainty. You:",o:["Blame","Time-box a short experiment to learn, then decide","Guess indefinitely","Ignore"],a:1,x:"Spikes are time-boxed learning to cut uncertainty."},
+  {d:"R",q:"Stakeholders disagree on success criteria. You:",o:["Pick yours","Ignore","Escalate instantly","Facilitate agreement on measurable acceptance criteria"],a:3,x:"Clear acceptance criteria prevent disputes."},
+  {d:"R",q:"A resource is over-allocated across two projects. You:",o:["Negotiate leveling with the resource managers","Overload them","Ignore","Blame"],a:0,x:"Over-allocation is resolved by negotiation/leveling."},
+  {d:"R",q:"To keep execution transparent you use:",o:["Guesswork","A visible board and regular demos/reviews","Secret tracking","No updates"],a:1,x:"Transparency via boards and demos builds trust."},
+  {d:"R",q:"An issue is escalating beyond the team. You:",o:["Hide it","Blame","Ignore","Log it, assess, and escalate with options to the right level"],a:3,x:"Issues are logged and escalated with context."},
+  {d:"B",q:"A project's business case is no longer valid. You should:",o:["Blame the team","Flag it to sponsors and recommend reconsideration or closure","Keep going silently","Hide the issue"],a:1,x:"Loss of business justification must be escalated."},
+  {d:"B",q:"Benefits realization is the PM's concern because:",o:["Projects exist to deliver outcomes/benefits, not just outputs","Outputs are enough","Benefits are optional","Ignore value"],a:0,x:"Value, not deliverables alone, justifies the project."},
+  {d:"B",q:"Outputs, outcomes, and benefits differ in that:",o:["Outputs are deliverables; outcomes are changes from them; benefits are the value gained","They are the same","Only outputs matter","Benefits are outputs"],a:0,x:"Understanding the chain keeps focus on value."},
+  {d:"B",q:"A new regulation affects the project. You must:",o:["Ignore the law","Proceed anyway","Hide it","Identify the compliance need and ensure the project meets it"],a:3,x:"Compliance is non-negotiable; assess and meet it."},
+  {d:"B",q:"The organization is undergoing change. You support it by:",o:["Hiding impacts","Communicating, training, and sustaining adoption after go-live","Ignoring resistance","Forcing change"],a:1,x:"Change management sustains adoption."},
+  {d:"B",q:"A project conflicts with organizational strategy. You:",o:["Blame","Realign it to strategy or raise the mismatch to sponsors","Ignore strategy","Proceed"],a:1,x:"Projects must serve strategy."},
+  {d:"B",q:"Enterprise environmental factors influence the project by:",o:["Only helping","Never mattering","Shaping constraints/options (market, law, culture) you must work within","Being irrelevant"],a:2,x:"EEFs are external realities affecting choices."},
+  {d:"B",q:"Organizational process assets help by:",o:["Being ignored","Slowing you","Harming","Providing templates, lessons, and standards to reuse"],a:3,x:"OPAs are reusable internal knowledge."},
+  {d:"B",q:"AI tooling is introduced to the project. Best practice:",o:["Replace all judgment blindly","Ban it","Ignore risks","Use it to augment analysis with human oversight and accountability"],a:3,x:"AI augments; humans stay accountable (new 2026 BE topic)."},
+  {d:"B",q:"Sustainability is part of delivery when:",o:["The project considers environmental/social impact in choices","It never matters","Only cost matters","Ignore it"],a:0,x:"Sustainable delivery is a 2026 BE emphasis."},
+  {d:"B",q:"Knowledge transfer at closure ensures:",o:["Hidden","Lost","Lessons and know-how pass to the organization for continuity","It is skipped"],a:2,x:"Knowledge transfer enables continuity."},
+  {d:"B",q:"A project delivers but users won't adopt it. Likely cause:",o:["Strong comms","Insufficient change management and stakeholder engagement","Good training","Clear value"],a:1,x:"Adoption failure usually means weak change management."},
+  {d:"B",q:"To demonstrate value to executives you:",o:["Show benefits realized against the business case with metrics","Show only tasks done","Hide results","Guess"],a:0,x:"Value is shown with measured benefits."},
+  {d:"B",q:"External market shift threatens project relevance. You:",o:["Blame","Reassess and recommend pivoting, pausing, or stopping","Ignore it","Proceed blindly"],a:1,x:"Environmental change requires reassessment."},
+  {d:"B",q:"Governance requires stage approvals. You:",o:["Guess","Present status and a recommendation at each gate","Skip gates","Hide bad news"],a:1,x:"Stage gates need transparent recommendations."},
+  {d:"B",q:"A benefits owner is needed because:",o:["Someone must track and realize benefits after delivery","No one cares","Benefits are automatic","Ignore"],a:0,x:"Benefits need an accountable owner post-delivery."},
+  {d:"B",q:"Compliance evidence should be:",o:["Maintained and auditable throughout the project","Ignored","Faked","Deleted"],a:0,x:"Audit-ready compliance evidence is essential."},
+  {d:"B",q:"The PM supports strategy by:",o:["Doing random work","Ignoring goals","Blame","Selecting work that advances prioritized organizational objectives"],a:3,x:"Delivery should advance strategy."}
+];
+const EXAM_MINUTES = 240;
+const PASS_PCT = 70;
+
+let mode = 'study';
+let current = 0;
+const answers = new Array(Q.length).fill(null);
+const revealed = new Array(Q.length).fill(false);
+let timer = null, remaining = EXAM_MINUTES*60;
+const quiz = document.getElementById('quiz');
+
+function setMode(m){
+  mode = m;
+  document.getElementById('btnStudy').classList.toggle('active', m==='study');
+  document.getElementById('btnExam').classList.toggle('active', m==='exam');
+  document.getElementById('timer').style.visibility = (m==='exam') ? 'visible':'hidden';
+  if(m==='exam'){ startTimer(); } else { stopTimer(); document.getElementById('timer').textContent=''; }
+  renderCurrent();
+}
+function startTimer(){
+  stopTimer();
+  remaining = EXAM_MINUTES*60;
+  updateTimer();
+  timer = setInterval(()=>{ remaining--; updateTimer(); if(remaining<=0){ stopTimer(); endExam(); } },1000);
+}
+function stopTimer(){ if(timer){ clearInterval(timer); timer=null; } }
+function updateTimer(){
+  const m=Math.floor(remaining/60), s=remaining%60;
+  document.getElementById('timer').textContent='Time '+m+':'+(s<10?'0':'')+s;
+}
+function updateProgress(){
+  const n=answers.filter(a=>a!==null).length;
+  document.getElementById('progress').textContent='Answered '+n+' / '+Q.length;
+}
+function renderCurrent(){
+  const q=Q[current];
+  let hs='<div class="qhead"><span class="qdomain">'+DOMAINS[q.d]+'</span><span class="qno">Question '+(current+1)+' of '+Q.length+'</span></div>';
+  hs+='<div class="question">'+q.q+'</div><div class="options">';
+  const chosen=answers[current];
+  const show=revealed[current];
+  q.o.forEach((opt,i)=>{
+    let cls='opt';
+    if(show){
+      if(i===q.a) cls+=' correct';
+      else if(chosen===i) cls+=' wrong';
+      else cls+=' dim';
+    }
+    hs+='<label class="'+cls+'"><input type="radio" name="opt" value="'+i+'" '+(chosen===i?'checked':'')+' onchange="choose('+i+')"> '+opt+'</label>';
+  });
+  hs+='</div>';
+  if(show){ hs+='<div class="exp"><strong>Explanation:</strong> '+q.x+'</div>'; }
+  const last = current===Q.length-1;
+  hs+='<div class="qnav"><button onclick="go(-1)" '+(current===0?'disabled':'')+'>&larr; Back</button>';
+  hs+='<div class="qcontrols">';
+  if(mode==='study' && !revealed[current]) hs+='<button onclick="reveal()">Reveal answer</button>';
+  hs+='<button class="primary" onclick="go(1)">'+(last?'Review / End':'Next &rarr;')+'</button>';
+  hs+='</div></div>';
+  quiz.innerHTML=hs;
+}
+function choose(i){ answers[current]=i; updateProgress(); renderCurrent(); }
+function reveal(){ revealed[current]=true; renderCurrent(); }
+function go(dir){
+  const nxt=current+dir;
+  if(nxt<0) return;
+  if(nxt>=Q.length){ endExam(); return; }
+  current=nxt; renderCurrent();
+}
+function endExam(){
+  stopTimer();
+  const answered=answers.filter(a=>a!==null).length;
+  let correct=0; const dom={};
+  Object.keys(DOMAINS).forEach(k=>dom[k]={t:0,c:0});
+  Q.forEach((q,i)=>{ dom[q.d].t++; if(answers[i]===q.a){ correct++; dom[q.d].c++; } });
+  const pct=Math.round(correct/Q.length*100);
+  document.getElementById('scnum').textContent=correct;
+  const pass = pct>=PASS_PCT;
+  document.getElementById('verdict').textContent = 'You answered '+answered+' of '+Q.length+'. Score: '+pct+'% — '+(pass?'PASS (≥'+PASS_PCT+'%)':'BELOW PASS (≥'+PASS_PCT+'%)');
+  renderPie(dom,pct);
+  const bd=document.getElementById('breakdown'); bd.innerHTML='';
+  Object.keys(DOMAINS).forEach(k=>{
+    const d=dom[k]; const p=d.t?Math.round(d.c/d.t*100):0;
+    const cls = p>=PASS_PCT?'ok':'no';
+    bd.innerHTML+='<div class="brow"><span>'+DOMAINS[k]+' <span style="color:var(--muted)">('+d.t+' Q)</span></span><span class="pct '+cls+'">'+d.c+'/'+d.t+' · '+p+'%</span></div>';
+  });
+  const rec=document.getElementById('rec'); rec.classList.add('show');
+  const weakest=Object.keys(DOMAINS).map(k=>({k,p:dom[k].t?dom[k].c/dom[k].t:1})).sort((a,b)=>a.p-b.p)[0];
+  const ul=document.getElementById('recul'); ul.innerHTML='';
+  (STUDYGUIDE[weakest.k]||[]).forEach(t=>ul.innerHTML+='<li>'+t+'</li>');
+  const rv=document.getElementById('review'); rv.innerHTML='<h3 style="margin:18px 0 8px">Review</h3>';
+  Q.forEach((q,i)=>{
+    const ok=answers[i]===q.a;
+    rv.innerHTML+='<div class="review-item"><div class="rq">'+(i+1)+'. '+q.q+'</div>'+
+      '<div class="rr '+(ok?'ok':'no')+'">'+(ok?'✓ Correct':'✗ Your answer: '+(answers[i]!==null?q.o[answers[i]]:'—'))+' &nbsp;|&nbsp; Correct: '+q.o[q.a]+'</div>'+
+      '<div class="rx"><strong>Why:</strong> '+q.x+'</div></div>';
+  });
+  document.getElementById('score').style.display='block';
+  document.getElementById('score').scrollIntoView({behavior:'smooth'});
+}
+function renderPie(dom, pct){
+  const colors={P:'#6ea8fe',R:'#3ecf8e',B:'#f5a623'};
+  const segs=Object.keys(DOMAINS);
+  const total=segs.reduce((s,k)=>s+dom[k].t,0);
+  const R=70,Cx=90,Cy=90,sw=26;
+  let off=0,paths='';
+  segs.forEach(k=>{
+    const frac=dom[k].t/total, len=frac*2*Math.PI*R, col=colors[k]||'#888';
+    paths+='<circle cx="'+Cx+'" cy="'+Cy+'" r="'+R+'" fill="none" stroke="'+col+'" stroke-width="'+sw+'" '+
+      'stroke-dasharray="'+len+' '+(2*Math.PI*R-len)+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 '+Cx+' '+Cy+')"></circle>';
+    off+=len;
+  });
+  document.getElementById('pie').innerHTML=
+    '<svg viewBox="0 0 180 180" width="200" height="200">'+paths+
+    '<text x="90" y="84" text-anchor="middle" font-size="26" font-weight="700" fill="#e8ecf5">'+pct+'%</text>'+
+    '<text x="90" y="104" text-anchor="middle" font-size="11" fill="#9aa6c0">correct</text></svg>'+
+    '<div class="pielabel">Segments sized by question count per domain</div>';
+}
+function resetExam(){
+  for(let i=0;i<Q.length;i++){answers[i]=null; revealed[i]=false;}
+  current=0; document.getElementById('score').style.display='none';
+  if(mode==='exam') startTimer(); updateProgress(); renderCurrent();
+}
+setMode('study');
+updateProgress();
+</script>
+</body></html>
